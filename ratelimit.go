@@ -59,10 +59,10 @@ type limiter struct {
 type Option func(l *limiter)
 
 // New returns a Limiter that will limit to the given RPS.
-func New(rate int, opts ...Option) Limiter {
+func New(rate int,duration time.Duration, opts ...Option) Limiter {
 	l := &limiter{
-		perRequest: time.Second / time.Duration(rate),
-		maxSlack:   -10 * time.Second / time.Duration(rate),
+		perRequest: duration / time.Duration(rate),
+		maxSlack:   -10 * duration / time.Duration(rate),
 	}
 	for _, opt := range opts {
 		opt(l)
